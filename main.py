@@ -2,6 +2,27 @@
 # from BroCode
 
 from tkinter import *
+from Ball import *
+from Pets import *
+import time
+
+WIDTH = 900
+HEIGHT = 400
+xVelocity = 3
+yVelocity = 2
+
+
+# run = False
+
+def run_animation():
+    while run.get():  # get value of variable run from checkbutton
+        volley_ball.move()
+        tennis_ball.move()
+        basket_ball.move()
+        football.move()
+        mack_icon.move()
+        window.update()
+        time.sleep(0.01)
 
 
 def scale_submit():
@@ -14,24 +35,32 @@ def drag_start(event):
     widget.startX = event.x
     widget.startY = event.y
 
+
 def drag_motion(event):
     widget = event.widget
     x = widget.winfo_x() - widget.startX + event.x
     y = widget.winfo_y() - widget.startY + event.y
     widget.place(x=x, y=y)
 
+
 def move_up(event):
-    logo_label.place(x=logo_label.winfo_x(), y=logo_label.winfo_y()-10)
+    canvas.move(canvas_image, 0, -10)
+    logo_label.place(x=logo_label.winfo_x(), y=logo_label.winfo_y() - 10)
+
 
 def move_down(event):
-    logo_label.place(x=logo_label.winfo_x(), y=logo_label.winfo_y()+10)
+    canvas.move(canvas_image, 0, 10)
+    logo_label.place(x=logo_label.winfo_x(), y=logo_label.winfo_y() + 10)
+
 
 def move_left(event):
-    logo_label.place(x=logo_label.winfo_x()-10, y=logo_label.winfo_y())
+    canvas.move(canvas_image, -10, 0)
+    logo_label.place(x=logo_label.winfo_x() - 10, y=logo_label.winfo_y())
 
 
 def move_right(event):
-    logo_label.place(x=logo_label.winfo_x()+10, y=logo_label.winfo_y())
+    canvas.move(canvas_image, 10, 0)
+    logo_label.place(x=logo_label.winfo_x() + 10, y=logo_label.winfo_y())
 
 
 # keyboard and mouse events
@@ -42,6 +71,7 @@ def doSomething(event):
 
 # main window generation starts here *****************************
 window = Tk()
+window.geometry("1000x1000")
 window.title("Here is my Project")
 window.config(background="cyan")
 
@@ -70,7 +100,8 @@ logo_label.place(x=100, y=100)
 
 # scale = sliding numeric control
 scale_frame = Frame(window, bg='white', bd=3, relief=RIDGE)
-scale_frame.grid(row=9, column=1, columnspan=4, padx=20, pady=10)
+# scale_frame.grid(row=9, column=1, columnspan=4, padx=20, pady=10)
+scale_frame.place(x=150, y=850)
 # drag and drop bindings
 scale_frame.bind("<Button-1>", drag_start)
 scale_frame.bind("<B1-Motion>", drag_motion)
@@ -85,13 +116,13 @@ scale = Scale(scale_frame,
               length=400,
               orient=HORIZONTAL,
               font=('FreeMono', 11, 'bold'),
-              tickinterval=10,          # displays numbers along scale
-              #showvalue=0,            # hide current value
-              #resolution=5,              # create steps
+              tickinterval=10,  # displays numbers along scale
+              # showvalue=0,            # hide current value
+              # resolution=5,              # create steps
               troughcolor='#00FF00',
               fg='#FF4800',
-              bg='#111111',)
-scale.set(((scale['from']-scale['to'])/2) + scale['to'])               # starting value in middle
+              bg='#111111', )
+scale.set(((scale['from'] - scale['to']) / 2) + scale['to'])  # starting value in middle
 scale.grid(row=9, column=1, pady=20)
 
 scale_hot = PhotoImage(file='icons8-fire-48.png')
@@ -101,21 +132,25 @@ hot_label.grid(row=9, column=2, padx=20, sticky=W)
 scale_button = Button(scale_frame, text='read scale', command=scale_submit)
 scale_button.grid(row=9, column=3, padx=20)
 
-
-# canvas = widget that is used to draw graphs, plots, images in a window
-canvas = Canvas(window, height=250, width=400)
-# greenLine = canvas.create_line(0, 0, 400, 250, fill="green", width=5)
-# redLine = canvas.create_line(0, 250, 400, 0, fill="red", width=5)
-# canvas.create_rectangle(50, 50, 350, 200, fill="purple")
-# canvas.create_polygon(200, 0, 350, 250, 50, 250, fill="yellow")
-# points = [200, 0, 350, 100, 300, 250, 100, 250, 50, 100]
-points = [250, 10, 390, 100, 330, 240, 170, 240, 90, 100]
-canvas.create_polygon(points, fill="yellow", outline="black", width=3)
-# canvas.create_arc(0, 0, 250, 250, fill="blue", style=PIESLICE, start=90, extent=180)
-canvas.create_arc(10, 10, 240, 240, fill="red", extent=180, width=10)
-canvas.create_arc(10, 10, 240, 240, fill="white", extent=180, start=180, width=10)
-canvas.create_oval(80, 90, 170, 160, fill="white", width=10)
-canvas.grid(row=16, column=2, columnspan=3, padx=5)
+checkbox_photo = PhotoImage(file='pgs_checked_icon.png')
+run = BooleanVar()
+check_button = Checkbutton(window,
+                           text="Run Animation",
+                           variable=run,
+                           onvalue=True,
+                           offvalue=False,
+                           command=run_animation,
+                           font=('Mathjax_Typewriter', 20),
+                           fg="#00FF00",
+                           bg="black",
+                           activeforeground='#00FF00',
+                           activebackground='grey',
+                           padx=25,
+                           pady=10,
+                           image=checkbox_photo,
+                           compound='left')
+# check_button.grid(row=4, column=1)
+check_button.place(x=500, y=0)
 
 # keyboard key events
 # window.bind("<Key>", doSomething)   # keyboard key (sends key name)
@@ -130,6 +165,64 @@ window.bind("<Button-1>", doSomething)  # left mouse click
 # window.bind("<Leave>", doSomething)     # mouse leave the window
 # window.bind("<Motion>", doSomething)    # where the mouse moved
 
+# exit button from original test project
+quit_button = Button(window, text="Exit Program", width=15, command=window.quit)
+# quit_button.grid(row=31, column=0, columnspan=5, sticky=S)
+quit_button.place(x=0, y=0)
+
+# canvas = widget that is used to draw graphs, plots, images in a window
+canvas = Canvas(window, height=HEIGHT, width=WIDTH)
+# greenLine = canvas.create_line(0, 0, 400, 250, fill="green", width=5)
+# redLine = canvas.create_line(0, 250, 400, 0, fill="red", width=5)
+# canvas.create_rectangle(50, 50, 350, 200, fill="purple")
+# canvas.create_polygon(200, 0, 350, 250, 50, 250, fill="yellow")
+# points = [200, 0, 350, 100, 300, 250, 100, 250, 50, 100]
+# points = [250, 10, 390, 100, 330, 240, 170, 240, 90, 100]
+# canvas.create_polygon(points, fill="yellow", outline="black", width=3)
+# canvas.create_arc(0, 0, 250, 250, fill="blue", style=PIESLICE, start=90, extent=180)
+# canvas.create_arc(10, 10, 240, 240, fill="red", extent=180, width=10)
+# canvas.create_arc(10, 10, 240, 240, fill="white", extent=180, start=180, width=10)
+# canvas.create_oval(80, 90, 170, 160, fill="white", width=10)
+# canvas.grid(row=16, column=2, columnspan=3, padx=5)
+canvas.place(x=50, y=350)
+
+# background_photo = PhotoImage(file='brushed_400x400_light.png')
+# background = canvas.create_image(0, 0, image=background_photo, anchor=NW)
+
+# cp_image = PhotoImage(file='icons8-control-panel-64.png')
+# canvas_image = canvas.create_image(50, 50, image=cp_image)
+
+mack_image = PhotoImage(file='icons8-mack-48.png')
+# ani_image = canvas.create_image(0, 0, image=mack_image, anchor=NW)
+
+# image_width = mack_image.width()
+# image_height = mack_image.height()
+
+# while run.get():
+#     coordinates = canvas.coords(ani_image)
+#     # print(coordinates)
+#     if coordinates[0] >= (WIDTH - image_width) or coordinates[0] < 0:
+#         xVelocity = -xVelocity
+#     if coordinates[1] >= (HEIGHT - image_height) or coordinates[1] < 0:
+#         yVelocity = -yVelocity
+#     canvas.move(ani_image, xVelocity, yVelocity)
+#     window.update()
+#     time.sleep(0.01)
+
+volley_ball = Ball(canvas, 0, 0, 100, 2, 3, "white")
+tennis_ball = Ball(canvas, 0, 0, 50, 4, 5, "yellow")
+basket_ball = Ball(canvas, 0, 0, 120, 8, 7, "orange")
+football = Ball(canvas, 0, 0, 80, 5, 6, "brown")
+
+mack_icon = Pets(canvas, 50, 50, 3, 5, mack_image)
+
+#while True:
+    # volley_ball.move()
+    # tennis_ball.move()
+    # basket_ball.move()
+    # football.move()
+    # window.update()
+    # time.sleep(0.01)
 
 # run main loop
 window.mainloop()
