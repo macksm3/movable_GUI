@@ -19,8 +19,12 @@ def run_animation():
         volley_ball.move()
         tennis_ball.move()
         basket_ball.move()
-        football.move()
+        # football.move()
         mack_icon.move()
+        parrot_icon.move()
+        usb_icon.move()
+        sdCard_icon.move()
+        gecko_icon.move()
         window.update()
         time.sleep(0.01)
 
@@ -72,7 +76,7 @@ def doSomething(event):
 # main window generation starts here *****************************
 window = Tk()
 window.geometry("1000x1000")
-window.title("Here is my Project")
+window.title("Movable objects in GUI")
 window.config(background="cyan")
 
 # from BroCode
@@ -92,7 +96,7 @@ window.bind("<Right>", move_right)
 my_logo = PhotoImage(file="ConsultLogo2.png")
 logo_label = Label(window, image=my_logo, bg='cyan')
 # logo_label.grid(row=0, column=1, columnspan=2)
-logo_label.place(x=100, y=100)
+logo_label.place(x=250, y=100)
 
 # drag and drop bindings
 # logo_label.bind("<Button-1>", drag_start)
@@ -105,6 +109,9 @@ scale_frame.place(x=150, y=850)
 # drag and drop bindings
 scale_frame.bind("<Button-1>", drag_start)
 scale_frame.bind("<B1-Motion>", drag_motion)
+
+scale_label = Label(scale_frame, text="drag with mouse to move", font=("Comic Sans MS", 12), bg="white")
+scale_label.grid(row=0, column=0, columnspan=4)
 
 scale_cold = PhotoImage(file='icons8-snowflake-48.png')
 cold_label = Label(scale_frame, image=scale_cold, bg='cyan')
@@ -140,17 +147,17 @@ check_button = Checkbutton(window,
                            onvalue=True,
                            offvalue=False,
                            command=run_animation,
-                           font=('Mathjax_Typewriter', 20),
-                           fg="#00FF00",
-                           bg="black",
-                           activeforeground='#00FF00',
+                           font=('Ink Free', 20),
+                           fg="blue",
+                           bg="yellow",
+                           activeforeground='#00FF88',
                            activebackground='grey',
                            padx=25,
                            pady=10,
                            image=checkbox_photo,
                            compound='left')
 # check_button.grid(row=4, column=1)
-check_button.place(x=500, y=0)
+check_button.place(x=650, y=0)
 
 # keyboard key events
 # window.bind("<Key>", doSomething)   # keyboard key (sends key name)
@@ -169,6 +176,9 @@ window.bind("<Button-1>", doSomething)  # left mouse click
 quit_button = Button(window, text="Exit Program", width=15, command=window.quit)
 # quit_button.grid(row=31, column=0, columnspan=5, sticky=S)
 quit_button.place(x=0, y=0)
+
+move_it_label = Label(window, text="Use arrow keys to move stuff", font=("Ink Free", 20, "bold"), bg="cyan")
+move_it_label.place(x=200, y=0)
 
 # canvas = widget that is used to draw graphs, plots, images in a window
 canvas = Canvas(window, height=HEIGHT, width=WIDTH)
@@ -189,16 +199,20 @@ canvas.place(x=50, y=350)
 # background_photo = PhotoImage(file='brushed_400x400_light.png')
 # background = canvas.create_image(0, 0, image=background_photo, anchor=NW)
 
-# cp_image = PhotoImage(file='icons8-control-panel-64.png')
-# canvas_image = canvas.create_image(50, 50, image=cp_image)
+cp_image = PhotoImage(file='icons8-control-panel-64.png')
+canvas_image = canvas.create_image(450, 200, image=cp_image)
 
+gecko_image = PhotoImage(file='icons8-lizard-48.png')
+sdCard_image = PhotoImage(file='icons8-sd-48.png')
+usb_image = PhotoImage(file='icon_usbstick_78x89.png')
+parrot_image = PhotoImage(file='icons8-parrot-96.png')
 mack_image = PhotoImage(file='icons8-mack-48.png')
 # ani_image = canvas.create_image(0, 0, image=mack_image, anchor=NW)
 
 # image_width = mack_image.width()
 # image_height = mack_image.height()
 
-# while run.get():
+# while True:
 #     coordinates = canvas.coords(ani_image)
 #     # print(coordinates)
 #     if coordinates[0] >= (WIDTH - image_width) or coordinates[0] < 0:
@@ -212,17 +226,13 @@ mack_image = PhotoImage(file='icons8-mack-48.png')
 volley_ball = Ball(canvas, 0, 0, 100, 2, 3, "white")
 tennis_ball = Ball(canvas, 0, 0, 50, 4, 5, "yellow")
 basket_ball = Ball(canvas, 0, 0, 120, 8, 7, "orange")
-football = Ball(canvas, 0, 0, 80, 5, 6, "brown")
+# football = Ball(canvas, 0, 0, 80, 5, 6, "brown")
 
 mack_icon = Pets(canvas, 50, 50, 3, 5, mack_image)
-
-#while True:
-    # volley_ball.move()
-    # tennis_ball.move()
-    # basket_ball.move()
-    # football.move()
-    # window.update()
-    # time.sleep(0.01)
+parrot_icon = Pets(canvas, 100, 100, 9, 12, parrot_image)
+sdCard_icon = Pets(canvas, 60, 60, 7, 5, sdCard_image)
+usb_icon = Pets(canvas, 80, 80, 3, 2, usb_image)
+gecko_icon = Pets(canvas, 25, 25, 5, 7, gecko_image)
 
 # run main loop
 window.mainloop()
