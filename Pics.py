@@ -1,4 +1,4 @@
-class Pets:
+class Pics:
 
     def __init__(self, canvas, x, y, xVelocity, yVelocity, image):
         self.canvas = canvas

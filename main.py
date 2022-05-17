@@ -3,7 +3,7 @@
 
 from tkinter import *
 from Ball import *
-from Pets import *
+from Pics import Pics
 import time
 
 WIDTH = 900
@@ -27,6 +27,9 @@ def run_animation():
         gecko_icon.move()
         window.update()
         time.sleep(0.01)
+        check_button_text.set("Animation Running")
+    else:
+        check_button_text.set("Run Animation")
 
 
 def scale_submit():
@@ -139,23 +142,33 @@ hot_label.grid(row=9, column=2, padx=20, sticky=W)
 scale_button = Button(scale_frame, text='read scale', command=scale_submit)
 scale_button.grid(row=9, column=3, padx=20)
 
-checkbox_photo = PhotoImage(file='pgs_checked_icon.png')
+checkbox_photo = PhotoImage(file='pgs_unchecked_icon.png')
+checked_photo = PhotoImage(file='pgs_checked_icon.png')
 run = BooleanVar()
+check_button_text = StringVar()
+check_button_text.set("Run Animation")
 check_button = Checkbutton(window,
                            text="Run Animation",
-                           variable=run,
                            onvalue=True,
                            offvalue=False,
+                           variable=run,
+                           textvariable=check_button_text,
                            command=run_animation,
                            font=('Ink Free', 20),
                            fg="blue",
                            bg="yellow",
-                           activeforeground='#00FF88',
+                           activeforeground='black',
                            activebackground='grey',
                            padx=25,
                            pady=10,
                            image=checkbox_photo,
-                           compound='left')
+                           selectimage=checked_photo,
+                           compound='left',
+                           selectcolor='#00FF88',
+                           indicatoron=False,
+                           relief='raised',
+                           bd=4,
+                           )
 # check_button.grid(row=4, column=1)
 check_button.place(x=650, y=0)
 
@@ -228,11 +241,11 @@ tennis_ball = Ball(canvas, 0, 0, 50, 4, 5, "yellow")
 basket_ball = Ball(canvas, 0, 0, 120, 8, 7, "orange")
 # football = Ball(canvas, 0, 0, 80, 5, 6, "brown")
 
-mack_icon = Pets(canvas, 50, 50, 3, 5, mack_image)
-parrot_icon = Pets(canvas, 100, 100, 9, 12, parrot_image)
-sdCard_icon = Pets(canvas, 60, 60, 7, 5, sdCard_image)
-usb_icon = Pets(canvas, 80, 80, 3, 2, usb_image)
-gecko_icon = Pets(canvas, 25, 25, 5, 7, gecko_image)
+mack_icon = Pics(canvas, 50, 50, 3, 5, mack_image)
+parrot_icon = Pics(canvas, 100, 100, 9, 12, parrot_image)
+sdCard_icon = Pics(canvas, 60, 60, 7, 5, sdCard_image)
+usb_icon = Pics(canvas, 80, 80, 3, 2, usb_image)
+gecko_icon = Pics(canvas, 25, 25, 5, 7, gecko_image)
 
 # run main loop
 window.mainloop()
